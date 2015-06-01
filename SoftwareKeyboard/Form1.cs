@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HongliangSoft.Utilities.Gui;
 
 
 namespace SoftwareKeyboard
@@ -83,9 +84,17 @@ namespace SoftwareKeyboard
             }
             return true;
         }
+        private void keyHookProc(object sender, KeyboardHookedEventArgs e)
+        {
+            Console.WriteLine(e.KeyCode.ToString("d"));
+        }
+
+        private static KeyboardHook keyHook;
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            keyHook = new KeyboardHook();
+            keyHook.KeyboardHooked += new KeyboardHookedEventHandler(keyHookProc);
             int i, j, sum = 0;
 
             // とりあえずウィンドウとサイズを固定
