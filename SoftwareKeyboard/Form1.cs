@@ -37,6 +37,8 @@ namespace SoftwareKeyboard
             InitializeComponent();
         }
 
+        
+        // 非アクティブにするおまじない
         private const int WS_EX_NOACTIVATE = 0x8000000;
         protected override CreateParams CreateParams
         {
@@ -51,6 +53,7 @@ namespace SoftwareKeyboard
             }
         }
 
+        /* グローバルフックに変更したからいらない
         protected override bool ProcessDialogKey(Keys keyData)
         {
             switch (keyData)
@@ -84,9 +87,35 @@ namespace SoftwareKeyboard
             }
             return true;
         }
+         */
+
         private void keyHookProc(object sender, KeyboardHookedEventArgs e)
         {
-            Console.WriteLine(e.KeyCode.ToString("d"));
+            switch (e.KeyCode)
+            {
+                case Keys.Down:
+                    nowButtonNumber += 1;
+                    if (nowButtonNumber >= 50) nowButtonNumber -= 50;
+                    btns[nowButtonNumber].Select();
+                    break;
+
+                case Keys.Right:
+                    nowButtonNumber += 5;
+                    if (nowButtonNumber >= 50) nowButtonNumber -= 50;
+                    btns[nowButtonNumber].Select();
+
+                    break;
+                case Keys.Up:
+                     nowButtonNumber -= 1;
+                    if (nowButtonNumber < 0) nowButtonNumber += 50;
+                    btns[nowButtonNumber].Select();
+                    break;
+                case Keys.Left:
+                     nowButtonNumber -= 5;
+                    if (nowButtonNumber < 0) nowButtonNumber += 50;
+                    btns[nowButtonNumber].Select();
+                    break;
+            }
         }
 
         private static KeyboardHook keyHook;
