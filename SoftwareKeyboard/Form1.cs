@@ -119,7 +119,7 @@ namespace SoftwareKeyboard
 
             }
 
-            // 「あ」にフォーカス
+            // 「あ」にフォーカス 
             btns[0].Select();
 
         }
