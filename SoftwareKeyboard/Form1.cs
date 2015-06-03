@@ -91,6 +91,7 @@ namespace SoftwareKeyboard
 
         private void keyHookProc(object sender, KeyboardHookedEventArgs e)
         {
+            btns[nowButtonNumber].BackColor = SystemColors.Control;
             switch (e.KeyCode)
             {
                 case Keys.Down:
@@ -116,6 +117,7 @@ namespace SoftwareKeyboard
                     btns[nowButtonNumber].Select();
                     break;
             }
+            btns[nowButtonNumber].BackColor = Color.Red;
         }
 
         private static KeyboardHook keyHook;
@@ -159,6 +161,10 @@ namespace SoftwareKeyboard
 
             // 「あ」にフォーカス
             btns[0].Select();
+            btns[0].BackColor = Color.Red;
+
+            // 今のフォーカスは「あ」なのでもどす
+            nowButtonNumber = 0;
 
         }
 
