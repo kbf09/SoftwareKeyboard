@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HongliangSoft.Utilities.Gui;
 
 
 namespace SoftwareKeyboard
@@ -38,6 +39,8 @@ namespace SoftwareKeyboard
             f.Show();                //デバック用
         }
 
+        
+        // 非アクティブにするおまじない
         private const int WS_EX_NOACTIVATE = 0x8000000;
         protected override CreateParams CreateParams
         {
@@ -52,6 +55,7 @@ namespace SoftwareKeyboard
             }
         }
 
+        /* グローバルフックに変更したからいらない
         protected override bool ProcessDialogKey(Keys keyData)
         {
             switch (keyData)
@@ -85,9 +89,45 @@ namespace SoftwareKeyboard
             }
             return true;
         }
+         */
+
+        private void keyHookProc(object sender, KeyboardHookedEventArgs e)
+        {
+            btns[nowButtonNumber].BackColor = SystemColors.Control;
+            switch (e.KeyCode)
+            {
+                case Keys.Down:
+                    nowButtonNumber += 1;
+                    if (nowButtonNumber >= 50) nowButtonNumber -= 50;
+                    btns[nowButtonNumber].Select();
+                    break;
+
+                case Keys.Right:
+                    nowButtonNumber += 5;
+                    if (nowButtonNumber >= 50) nowButtonNumber -= 50;
+                    btns[nowButtonNumber].Select();
+
+                    break;
+                case Keys.Up:
+                     nowButtonNumber -= 1;
+                    if (nowButtonNumber < 0) nowButtonNumber += 50;
+                    btns[nowButtonNumber].Select();
+                    break;
+                case Keys.Left:
+                     nowButtonNumber -= 5;
+                    if (nowButtonNumber < 0) nowButtonNumber += 50;
+                    btns[nowButtonNumber].Select();
+                    break;
+            }
+            btns[nowButtonNumber].BackColor = Color.Red;
+        }
+
+        private static KeyboardHook keyHook;
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            keyHook = new KeyboardHook();
+            keyHook.KeyboardHooked += new KeyboardHookedEventHandler(keyHookProc);
             int i, j, sum = 0;
 
             // とりあえずウィンドウとサイズを固定
@@ -123,6 +163,10 @@ namespace SoftwareKeyboard
 
             // 「あ」にフォーカス 
             btns[0].Select();
+            btns[0].BackColor = Color.Red;
+
+            // 今のフォーカスは「あ」なのでもどす
+            nowButtonNumber = 0;
 
         }
 
