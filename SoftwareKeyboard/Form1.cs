@@ -119,7 +119,7 @@ namespace SoftwareKeyboard
                     break;
             }
             btns[nowButtonNumber].BackColor = Color.Red;
-        }
+        } 
 
         private static KeyboardHook keyHook;
 
