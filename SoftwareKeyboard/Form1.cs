@@ -34,6 +34,8 @@ namespace SoftwareKeyboard
         public Form1()
         {
             InitializeComponent();
+            Form2 f = new Form2();   //デバック用
+            f.Show();                //デバック用
         }
 
         private const int WS_EX_NOACTIVATE = 0x8000000;
