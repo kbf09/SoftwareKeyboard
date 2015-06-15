@@ -35,6 +35,8 @@ namespace SoftwareKeyboard
         public Form1()
         {
             InitializeComponent();
+            Form2 f = new Form2();   //デバック用
+            f.Show();                //デバック用
         }
 
         
@@ -129,13 +131,13 @@ namespace SoftwareKeyboard
             int i, j, sum = 0;
 
             // とりあえずウィンドウとサイズを固定
-            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Size = new Size(size * 10 + 15, size * 5 + 30);
 
             // 最前面にする
             this.TopMost = true;
 
-            for (i = 9; i>=0; i--)
+            for (i = 0; i < 10; i++)
             {
                 for (j = 0; j < 5; j++)
                 {
@@ -159,14 +161,12 @@ namespace SoftwareKeyboard
 
             }
 
-            // 「あ」にフォーカス
+            // 「あ」にフォーカス 
             btns[0].Select();
             btns[0].BackColor = Color.Red;
 
             // 今のフォーカスは「あ」なのでもどす
             nowButtonNumber = 0;
-
-            this.Resize += new System.EventHandler(this.Form1_Resize);
 
         }
 
@@ -174,24 +174,5 @@ namespace SoftwareKeyboard
         {
             SendKeys.Send(henkan[((Button)sender).Text]);
         }
-
-        private void Form1_Resize(object sender, System.EventArgs e)
-        {
-            Control control = (Control)sender;
-
-            Console.WriteLine("iaojfo;iawejoaej");
-
-            size = control.Size.Height / 10;
-            ChengeBtnSize(size);
-        }
-
-        private void ChengeBtnSize(int size)
-        {
-            foreach (Button btn in this.btns)
-            {
-                btn.Size = new Size(size, size);
-            }
-        }
-
     }
 }
